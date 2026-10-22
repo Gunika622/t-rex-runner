@@ -1,0 +1,154 @@
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  min-height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 24px;
+  font-family: Arial, sans-serif;
+  color: #20243a;
+  background: linear-gradient(135deg, #e0f2fe, #ede9fe, #fce7f3);
+}
+
+.game-container {
+  width: 100%;
+  max-width: 850px;
+  text-align: center;
+}
+
+h1 {
+  margin-bottom: 8px;
+  font-size: clamp(2rem, 5vw, 3rem);
+}
+
+.subtitle {
+  color: #555b72;
+  margin-bottom: 28px;
+}
+
+#game {
+  height: 280px;
+  position: relative;
+  overflow: hidden;
+  border: 3px solid #30364f;
+  border-radius: 18px;
+  background: linear-gradient(#dbeafe, #f8fafc);
+  box-shadow: 0 12px 35px #33415525;
+}
+
+#score {
+  position: absolute;
+  top: 16px;
+  right: 18px;
+  z-index: 2;
+  font-weight: bold;
+  font-size: 18px;
+}
+
+#dino {
+  position: absolute;
+  left: 55px;
+  bottom: 35px;
+  z-index: 3;
+  font-size: 48px;
+  line-height: 1;
+  user-select: none;
+}
+
+#ground {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 25px;
+  height: 4px;
+  background: #475569;
+}
+
+#start-screen,
+#game-over {
+  position: absolute;
+  inset: 0;
+  z-index: 5;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 10px;
+  padding: 20px;
+  background: #ffffffdf;
+}
+
+#start-screen h2,
+#game-over h2 {
+  margin: 0;
+  font-size: 28px;
+}
+
+#start-screen p,
+#game-over p {
+  margin: 5px 0;
+}
+
+#game-over[hidden] {
+  display: none;
+}
+
+button {
+  border: 0;
+  border-radius: 12px;
+  padding: 13px 24px;
+  font-size: 16px;
+  font-weight: bold;
+  color: white;
+  background: #6d4aff;
+  cursor: pointer;
+  transition: transform 0.2s, background 0.2s;
+}
+
+button:hover {
+  background: #5232db;
+  transform: translateY(-2px);
+}
+
+button:focus-visible {
+  outline: 3px solid #20243a;
+  outline-offset: 4px;
+}
+
+.controls {
+  margin-top: 20px;
+}
+
+#jump-button {
+  min-width: 150px;
+  background: #0f9f78;
+}
+
+#jump-button:hover {
+  background: #087f60;
+}
+
+.instructions {
+  margin-top: 18px;
+  color: #555b72;
+  font-size: 14px;
+}
+
+@media (max-width: 480px) {
+  #game {
+    height: 250px;
+  }
+
+  #dino {
+    left: 25px;
+  }
+
+  #score {
+    font-size: 15px;
+  }
+}
