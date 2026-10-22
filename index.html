@@ -1,36 +1,81 @@
-<title>T-Rex Runner</title>
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#111827">
+  <title>T-Rex Runner 2.0 | Pixel Adventure</title>
   <link rel="stylesheet" href="style.css">
+  <script src="script.js" defer></script>
 </head>
 <body>
-  <main class="game-container">
-    <h1>🦖 T-Rex Runner</h1>
-    <p class="subtitle">Run, jump, and beat your high score!</p>
-
-    <div id="game">
-      <div id="score">Score: 0</div>
-      <div id="dino" role="img" aria-label="Dinosaur">🦖</div>
-      <div id="ground"></div>
-      <div id="start-screen">
-        <h2>Ready to Run?</h2>
-        <p>Press SPACE or tap JUMP to begin!</p>
-        <button id="start-button">Start Game</button>
+  <main class="app">
+    <header class="header">
+      <div class="brand">
+        <span class="brand-icon">🦖</span>
+        <div>
+          <p class="eyebrow">PIXEL ARCADE</p>
+          <h1>T-Rex Runner <span>2.0</span></h1>
+        </div>
       </div>
-      <div id="game-over" hidden>
-        <h2>Game Over!</h2>
-        <p id="final-score">Score: 0</p>
-        <button id="restart-button">Play Again</button>
+      <button id="sound-toggle" class="icon-button" aria-pressed="true"
+        aria-label="Toggle sound">🔊 Sound ON</button>
+    </header>
+
+    <section class="game-card">
+      <div class="game-topbar">
+        <span class="status"><span class="status-dot"></span> READY TO RUN</span>
+        <span id="weather-label">☀️ DAY MODE</span>
       </div>
-    </div>
 
-    <div class="controls">
-      <button id="jump-button">⬆ JUMP</button>
-    </div>
+      <div class="canvas-wrap">
+        <canvas id="game-canvas" width="900" height="340"
+          aria-label="T-Rex runner game. Press Space or Up Arrow to jump.">
+          Your browser does not support canvas.
+        </canvas>
 
-    <p class="instructions">
-      SPACE / ↑ to jump · Avoid the cactuses!
-    </p>
+        <div id="overlay" class="overlay">
+          <div class="overlay-content">
+            <p class="eyebrow">YOUR NEXT ADVENTURE</p>
+            <h2 id="overlay-title">Ready, Dino?</h2>
+            <p id="overlay-message">
+              Jump over cactuses, dodge flying birds, and beat your best score.
+            </p>
+            <button id="play-button" class="primary-button">▶ Start running</button>
+          </div>
+        </div>
+      </div>
+
+      <div class="game-controls">
+        <div class="stat">
+          <span class="stat-label">SCORE</span>
+          <strong id="score">00000</strong>
+        </div>
+        <div class="stat">
+          <span class="stat-label">BEST</span>
+          <strong id="best-score">00000</strong>
+        </div>
+        <div class="stat adaptive-stat">
+          <span class="stat-label">DINO AI</span>
+          <strong id="ai-status">Learning</strong>
+        </div>
+        <button id="jump-button" class="jump-button">⬆ JUMP</button>
+      </div>
+    </section>
+
+    <section class="tips">
+      <div class="tip-icon">⌨️</div>
+      <div>
+        <strong>How to play</strong>
+        <p>Press SPACE or ↑ to jump. On mobile, tap JUMP or the game area.</p>
+      </div>
+    </section>
+
+    <footer>
+      <span>BUILT WITH HTML · CSS · JAVASCRIPT</span>
+      <span>VERSION 2.0 · PIXEL ADVENTURE</span>
+    </footer>
   </main>
-
-  <script src="script.js"></script>
 </body>
 </html>
