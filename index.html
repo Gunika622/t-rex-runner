@@ -1,0 +1,36 @@
+<title>T-Rex Runner</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <main class="game-container">
+    <h1>🦖 T-Rex Runner</h1>
+    <p class="subtitle">Run, jump, and beat your high score!</p>
+
+    <div id="game">
+      <div id="score">Score: 0</div>
+      <div id="dino" role="img" aria-label="Dinosaur">🦖</div>
+      <div id="ground"></div>
+      <div id="start-screen">
+        <h2>Ready to Run?</h2>
+        <p>Press SPACE or tap JUMP to begin!</p>
+        <button id="start-button">Start Game</button>
+      </div>
+      <div id="game-over" hidden>
+        <h2>Game Over!</h2>
+        <p id="final-score">Score: 0</p>
+        <button id="restart-button">Play Again</button>
+      </div>
+    </div>
+
+    <div class="controls">
+      <button id="jump-button">⬆ JUMP</button>
+    </div>
+
+    <p class="instructions">
+      SPACE / ↑ to jump · Avoid the cactuses!
+    </p>
+  </main>
+
+  <script src="script.js"></script>
+</body>
+</html>
