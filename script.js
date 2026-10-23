@@ -1,4 +1,3 @@
-
 const dino = document.getElementById("dino");
 const game = document.getElementById("game");
 const scoreDisplay = document.getElementById("score");
@@ -17,29 +16,36 @@ let obstacles = [];
 let animationId = null;
 let lastObstacleTime = 0;
 let lastFrameTime = 0;
+
 let jumpVelocity = 0;
 let dinoY = 0;
+
 let highScore = 0;
 
+// Load saved high score
 try {
   highScore = Number(localStorage.getItem("trexHighScore")) || 0;
 } catch {
   highScore = 0;
 }
 
+// Update score display
 function updateScore() {
   scoreDisplay.textContent = `Score: ${score} | Best: ${highScore}`;
 }
 
+// Dinosaur jump
 function jump() {
   if (!running || jumping) return;
 
   jumping = true;
-  jumpVelocity = 12;
+  jumpVelocity = 12.5;
 }
 
+// Create cactus
 function createObstacle() {
   const obstacle = document.createElement("div");
+
   obstacle.textContent = "🌵";
   obstacle.setAttribute("aria-label", "Cactus obstacle");
 
@@ -61,6 +67,7 @@ function createObstacle() {
   });
 }
 
+// Start game
 function startGame() {
   if (animationId !== null) {
     cancelAnimationFrame(animationId);
@@ -71,10 +78,13 @@ function startGame() {
 
   running = true;
   jumping = false;
+
   score = 0;
   speed = 5;
+
   dinoY = 0;
   jumpVelocity = 0;
+
   lastObstacleTime = 0;
   lastFrameTime = 0;
 
@@ -85,9 +95,11 @@ function startGame() {
   gameOverScreen.hidden = true;
 
   updateScore();
+
   animationId = requestAnimationFrame(gameLoop);
 }
 
+// End game
 function endGame() {
   running = false;
 
@@ -96,21 +108,29 @@ function endGame() {
     animationId = null;
   }
 
+  // Save high score
   if (score > highScore) {
     highScore = score;
 
     try {
-      localStorage.setItem("trexHighScore", String(highScore));
+      localStorage.setItem(
+        "trexHighScore",
+        String(highScore)
+      );
     } catch {
-      // The game still works if storage is unavailable.
+      // Game still works if storage is unavailable
     }
   }
 
   updateScore();
-  finalScore.textContent = `Your score: ${score} | Best: ${highScore}`;
+
+  finalScore.textContent =
+    `Your score: ${score} | Best: ${highScore}`;
+
   gameOverScreen.hidden = false;
 }
 
+// Main game loop
 function gameLoop(timestamp) {
   if (!running) return;
 
@@ -120,10 +140,14 @@ function gameLoop(timestamp) {
 
   lastFrameTime = timestamp;
 
-  // Dinosaur jumping physics
+  // =========================
+  // DINOSAUR JUMPING PHYSICS
+  // =========================
+
   if (jumping) {
     dinoY += jumpVelocity * delta;
-    jumpVelocity -= 0.65 * delta;
+
+    jumpVelocity -= 0.7 * delta;
 
     if (dinoY <= 0) {
       dinoY = 0;
@@ -134,13 +158,20 @@ function gameLoop(timestamp) {
     dino.style.bottom = `${35 + dinoY}px`;
   }
 
-  // Increase the difficulty gradually
+  // =========================
+  // ADAPTIVE DIFFICULTY
+  // =========================
+
   speed = Math.min(5 + score / 100, 12);
 
-  // Spawn obstacles with a random interval
+  // =========================
+  // CREATE OBSTACLES
+  // =========================
+
   if (
     !lastObstacleTime ||
-    timestamp - lastObstacleTime > 1200 + Math.random() * 500
+    timestamp - lastObstacleTime >
+      1200 + Math.random() * 500
   ) {
     createObstacle();
     lastObstacleTime = timestamp;
@@ -148,15 +179,25 @@ function gameLoop(timestamp) {
 
   const dinoRect = dino.getBoundingClientRect();
 
+  // =========================
+  // MOVE OBSTACLES
+  // =========================
+
   for (let i = obstacles.length - 1; i >= 0; i--) {
     const obstacle = obstacles[i];
 
     obstacle.x -= speed * delta;
-    obstacle.element.style.left = `${obstacle.x}px`;
 
-    const rect = obstacle.element.getBoundingClientRect();
+    obstacle.element.style.left =
+      `${obstacle.x}px`;
 
-    // Slightly forgiving collision boxes
+    const rect =
+      obstacle.element.getBoundingClientRect();
+
+    // =========================
+    // COLLISION DETECTION
+    // =========================
+
     const hit =
       dinoRect.right - 12 > rect.left + 8 &&
       dinoRect.left + 12 < rect.right - 8 &&
@@ -168,22 +209,40 @@ function gameLoop(timestamp) {
       return;
     }
 
-    if (!obstacle.passed && rect.right < dinoRect.left) {
+    // =========================
+    // SCORE
+    // =========================
+
+    if (
+      !obstacle.passed &&
+      rect.right < dinoRect.left
+    ) {
       obstacle.passed = true;
+
       score += 10;
+
       updateScore();
     }
 
+    // =========================
+    // REMOVE OLD OBSTACLES
+    // =========================
+
     if (obstacle.x < -60) {
       obstacle.element.remove();
+
       obstacles.splice(i, 1);
     }
   }
 
-  animationId = requestAnimationFrame(gameLoop);
+  animationId =
+    requestAnimationFrame(gameLoop);
 }
 
-// Keyboard controls
+// =========================
+// KEYBOARD CONTROLS
+// =========================
+
 document.addEventListener("keydown", event => {
   if (
     event.code === "Space" ||
@@ -199,22 +258,44 @@ document.addEventListener("keydown", event => {
   }
 });
 
-// Button controls
-startButton.addEventListener("click", startGame);
-restartButton.addEventListener("click", startGame);
-jumpButton.addEventListener("click", jump);
+// =========================
+// BUTTON CONTROLS
+// =========================
 
-// Tap the game area to jump on mobile
-game.addEventListener("pointerdown", event => {
-  if (
-    event.target.closest("button") ||
-    event.target.closest("#start-screen") ||
-    event.target.closest("#game-over")
-  ) {
-    return;
+startButton.addEventListener(
+  "click",
+  startGame
+);
+
+restartButton.addEventListener(
+  "click",
+  startGame
+);
+
+jumpButton.addEventListener(
+  "click",
+  jump
+);
+
+// =========================
+// MOBILE TAP CONTROL
+// =========================
+
+game.addEventListener(
+  "pointerdown",
+  event => {
+
+    if (
+      event.target.closest("button") ||
+      event.target.closest("#start-screen") ||
+      event.target.closest("#game-over")
+    ) {
+      return;
+    }
+
+    jump();
   }
+);
 
-  jump();
-});
-
+// Initial score
 updateScore();
